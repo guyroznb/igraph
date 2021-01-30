@@ -26,11 +26,6 @@
 #include "igraph_memory.h"
 #include "igraph_stack.h"
 
-#include "core/indheap.h"
-#include "core/interruption.h"
-
-#include <string.h>
-
 /**
  * \function igraph_shortest_paths_bellman_ford
  * \brief Weighted shortest path lengths between vertices, allowing negative weights.
@@ -273,18 +268,16 @@ int igraph_shortest_paths_bellman_ford(const igraph_t *graph,
  *        during the search will have -1 in the corresponding entry of the
  *        vector. Note that the search terminates if all the vertices in
  *        \c to are reached.
- * \return Error code:
- *         \clist
+ * \return Error code.
  *         \cli IGRAPH_ENOMEM
- *           Not enough memory for temporary data.
+ *           not enough memory for temporary data.
  *         \cli IGRAPH_EINVAL
  *           The weight vector doesn't math the number of edges.
- *         \cli IGRAPH_EINVVID
+ *          \cli IGRAPH_EINVVID
  *           \p from is invalid vertex id, or the length of \p to is
  *           not the same as the length of \p vertices or \p edges.
- *         \cli IGRAPH_ENEGLOOP
- *           Bellman-ford algorithm encounted a negative loop.
- *         \endclist
+ *          \cli IGRAPH_ENEGLOOP
+ *          Bellman-ford algorithm encounted a negative loop.
  *
  * Time complexity: O(|E|*|V|), where |V| is the number of
  * vertices, |E| the number of edges.
@@ -323,7 +316,7 @@ int igraph_get_shortest_paths_bellman_ford(const igraph_t *graph,
     }
 
     if (igraph_vector_size(weights) != no_of_edges) {
-        IGRAPH_ERROR("Weight vector length must match number of edges.", IGRAPH_EINVAL);
+        IGRAPH_ERROR("Weight vector length does not match", IGRAPH_EINVAL);
     }
 
     IGRAPH_DQUEUE_INIT_FINALLY(&Q, no_of_nodes);
