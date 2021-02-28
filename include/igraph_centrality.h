@@ -73,6 +73,9 @@ IGRAPH_EXPORT int igraph_edge_betweenness_cutoff(const igraph_t *graph, igraph_v
 IGRAPH_EXPORT int igraph_betweenness_subset(const igraph_t *graph, igraph_vector_t *res,
                                             const igraph_vs_t vids, igraph_bool_t directed,
                                             const igraph_vector_t *weights);
+IGRAPH_EXPORT int igraph_edge_betweenness_subset(const igraph_t *graph, igraph_vector_t *result,
+                                            igraph_bool_t directed,
+                                            const igraph_vector_t *weights, igraph_vs_t subset);
 /**
  * \typedef igraph_pagerank_algo_t
  * \brief PageRank algorithm implementation

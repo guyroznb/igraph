@@ -169,6 +169,17 @@ int main() {
     IGRAPH_ASSERT(igraph_vector_all_e(&bet, &bet2));
 
     igraph_vector_destroy(&bet);
+
+    printf("\n non-trivial weighted graph using subset algorithm\n");
+    igraph_vector_init(&bet, 0);
+        igraph_betweenness_subset(/* graph=     */ &g,
+            /* res=       */ &bet,
+            /* vids=      */ igraph_vss_all(),
+            /* directed = */ 0,
+            /* weights=   */ &weights);
+    IGRAPH_ASSERT(igraph_vector_all_e(&bet, &bet2));
+
+    igraph_vector_destroy(&bet);
     igraph_destroy(&g);
 
 
@@ -224,10 +235,11 @@ int main() {
 
     igraph_vector_destroy(&bet);
     igraph_vector_destroy(&bet2);
+
     igraph_vector_destroy(&weights);
     igraph_destroy(&g);
 
-    printf("\nSingle path graph\n");
+    printf("\nSingle path graph cutoff\n");
     printf("==========================================================\n");
     igraph_small(&g, 5, IGRAPH_UNDIRECTED,
                             0, 1,
@@ -398,6 +410,11 @@ int main() {
     print_vector(&bet);
 
     igraph_vector_destroy(&bet);
+    
+    igraph_vector_init(&bet, 3); /* purposefully larger than zero, as igraph_betweenness must resize it */
+    igraph_betweenness_subset(&g, &bet, igraph_vss_all(), IGRAPH_UNDIRECTED, NULL);
+    print_vector(&bet);
+    igraph_vector_destroy(&bet);
     igraph_destroy(&g);
 
     printf("\nEmpty graph\n");
@@ -406,6 +423,12 @@ int main() {
     igraph_empty(&g, 2, IGRAPH_UNDIRECTED);
     igraph_vector_init(&bet, 0);
     igraph_betweenness(&g, &bet, igraph_vss_all(), IGRAPH_UNDIRECTED, NULL);
+    print_vector(&bet);
+
+    igraph_vector_destroy(&bet);
+    
+    igraph_vector_init(&bet, 0);
+    igraph_betweenness_subset(&g, &bet, igraph_vss_all(), IGRAPH_UNDIRECTED, NULL);
     print_vector(&bet);
 
     igraph_vector_destroy(&bet);
@@ -424,10 +447,15 @@ int main() {
         igraph_lattice(&g, &dims, 1, IGRAPH_UNDIRECTED, 0, 0);
 
         igraph_vector_init(&bet, 0);
+        igraph_vector_init (&bet2, 0);
         igraph_betweenness(&g, &bet, igraph_vss_all(), IGRAPH_UNDIRECTED, NULL);
         printf("Max betweenness: %f\n", igraph_vector_max(&bet));
 
+        igraph_betweenness_subset(&g, &bet2, igraph_vss_all(), IGRAPH_UNDIRECTED, NULL);
+        printf("Max betweenness: %f\n", igraph_vector_max(&bet2));
+
         igraph_vector_destroy(&bet);
+        igraph_vector_destroy(&bet2);
         igraph_destroy(&g);
         igraph_vector_destroy(&dims);
     }

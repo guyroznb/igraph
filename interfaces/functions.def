@@ -548,6 +548,14 @@ igraph_edge_betweenness_cutoff:
         NAME-R: estimate_edge_betweenness
         IGNORE: RR
 
+igraph_edge_betweenness_subset:
+        PARAMS: GRAPH graph, OUT VERTEXINDEX res, EDGEWEIGHTS vids=ALL, \
+                BOOLEAN directed=True, EDGEWEIGHTS weights=NULL
+        DEPS: vids ON graph, weights ON graph, res ON graph vids
+        NAME-R: estimate_betweenness
+        FLAGS: PROGRESS
+        IGNORE: RR
+
 igraph_pagerank:
         PARAMS: GRAPH graph, PAGERANKALGO algo=PRPACK, \
                 OUT VERTEXINDEX vector, OUT REALPTR value, \
